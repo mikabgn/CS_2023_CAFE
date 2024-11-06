@@ -69,6 +69,7 @@ switch ($action) {
                                 $_SESSION["typeConnexionBack"] = "commercialCafe";
                                 $Vue->setMenu(new Vue_Menu_Administration($_SESSION["typeConnexionBack"]));
                                 break;
+
                         }
 
                     } else {//mot de passe pas bon
