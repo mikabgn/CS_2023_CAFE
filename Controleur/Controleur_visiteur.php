@@ -44,15 +44,13 @@ switch ($action) {
                         if ($utilisateur["aAccepteRGPD"] == 1){
                         switch ($utilisateur["idCategorie_utilisateur"]) {
                             case 1:
-                                $_SESSION["typeConnexionBack"] = "administrateurLogiciel"; //Champ inutile, mais bien pour voir ce qu'il se passe avec des étudiants
-                                    $Vue->setMenu(new Vue_Menu_Administration());
+                                $_SESSION["typeConnexionBack"] = "administrateurLogiciel"; //Champ inutile, mais bien pour voir ce qu'il se passe avec des étudiants !
+                                $Vue->setMenu(new Vue_Menu_Administration($_SESSION["typeConnexionBack"]));
                                 break;
                             case 2:
-                                $_SESSION["typeConnexionBack"] = "utilisateurCafe";
-                                if ($utilisateur["aAccepteRGPD"] == 0) {
-                                    include "./Controleur/Controleur_AccepterRGPD.php";
-                                }
-                                $Vue->setMenu(new Vue_Menu_Administration());
+                                $_SESSION["typeConnexionBack"] = "gestionnaireCatalogue";
+                                $Vue->setMenu(new Vue_Menu_Administration($_SESSION["typeConnexionBack"]));
+                                $Vue->addToCorps(new \App\Vue\Vue_AfficherMessage("Bienvenue " . $_REQUEST["compte"]));
                                 break;
                             case 3:
                                 $_SESSION["typeConnexionBack"] = "entrepriseCliente";
@@ -65,6 +63,10 @@ switch ($action) {
                                 $_SESSION["idSalarie"] = $utilisateur["idUtilisateur"];
                                 $_SESSION["idEntreprise"] = Modele_Salarie::Salarie_Select_byId($_SESSION["idUtilisateur"])["idEntreprise"];
                                 include "./Controleur/Controleur_Catalogue_client.php";
+                                break;
+                            case 5:
+                                $_SESSION["typeConnexionBack"] = "commercialCafe";
+                                $Vue->setMenu(new Vue_Menu_Administration($_SESSION["typeConnexionBack"]));
                                 break;
                         }
                         }else{
