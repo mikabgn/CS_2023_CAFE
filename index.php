@@ -9,44 +9,31 @@ use App\Vue\Vue_Connexion_Formulaire_client;
 use App\Vue\Vue_Menu_Administration;
 use App\Vue\Vue_Structure_Entete;
 
-
 //Page appelée pour les utilisateurs publics
-
-
 $Vue = new Vue();
 
 //Charge le gestionnaire de vue
-
 
 if (isset($_SESSION["typeConnexionBack"])) {
     $typeConnexion = $_SESSION["typeConnexionBack"];
 } else {
     $typeConnexion = "visiteur";
 }
-//error_log("typeConnexion : " . $typeConnexion)  ;
-//utiliser en débuggage pour avoir le type de connexion
-//$Vue->addToCorps(new Vue_AfficherMessage("<br>typeConnexion $typeConnexion<br>"));
-
 //Identification du cas demandé (situation)
 if (isset($_REQUEST["case"]))
     $case = $_REQUEST["case"];
 else
     $case = "Cas_Par_Defaut";
-//error_log("case : " . $case);
-//utiliser en débuggage pour avoir le type de connexion
-//$Vue->addToCorps(new Vue_AfficherMessage("<br>Case $case<br>"));
 
 //Identification de l'action demandée
 if (isset($_REQUEST["action"]))
     $action = $_REQUEST["action"];
 else
     $action = "Action_Par_Defaut";
-//error_log("action : " . $action);
-//utiliser en débuggage pour avoir le type de connexion
-//$Vue->addToCorps(new Vue_AfficherMessage("<br>Action $action<br>"));
 
 switch ($typeConnexion) {
     case "visiteur" :
+
         include "Controleur/Controleur_visiteur.php";
         break;
     case "utilisateurCafe":
@@ -67,6 +54,9 @@ switch ($typeConnexion) {
                 break;
             case "Gerer_monCompte":
                 include "Controleur/Controleur_Gerer_monCompte.php";
+                break;
+            case "RGPD":
+                include "Controleur/Controleur_AccepterRGPD.php";
                 break;
             default:
                 $Vue->setMenu(new Vue_Menu_Administration());
@@ -89,6 +79,9 @@ switch ($typeConnexion) {
             case "Gerer_monCompte" :
             case "Gerer_Entreprise" :
                 include "Controleur/Controleur_Gerer_Entreprise.php";
+                break;
+            case "RGPD":
+                include "Controleur/Controleur_AccepterRGPD.php";
                 break;
             case "Cas_Par_Defaut":
             case "Gerer_catalogue":
