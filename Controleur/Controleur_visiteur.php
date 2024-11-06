@@ -49,8 +49,9 @@ switch ($action) {
                                 $Vue->setMenu(new Vue_Menu_Administration());
                                 break;
                             case 2:
-                                $_SESSION["typeConnexionBack"] = "utilisateurCafe";
-                                $Vue->setMenu(new Vue_Menu_Administration());
+                                $_SESSION["typeConnexionBack"] = "gestionnaireCatalogue";
+                                $Vue->setMenu(new Vue_Menu_Administration($_SESSION["typeConnexionBack"]));
+                                $Vue->addToCorps(new \App\Vue\Vue_AfficherMessage("Bienvenue " . $_REQUEST["compte"]));
                                 break;
                             case 3:
                                 $_SESSION["typeConnexionBack"] = "entrepriseCliente";
@@ -63,6 +64,10 @@ switch ($action) {
                                 $_SESSION["idSalarie"] = $utilisateur["idUtilisateur"];
                                 $_SESSION["idEntreprise"] = Modele_Salarie::Salarie_Select_byId($_SESSION["idUtilisateur"])["idEntreprise"];
                                 include "./Controleur/Controleur_Catalogue_client.php";
+                                break;
+                            case 5:
+                                $_SESSION["typeConnexionBack"] = "commercialCafe";
+                                $Vue->setMenu(new Vue_Menu_Administration($_SESSION["typeConnexionBack"]));
                                 break;
                         }
 
