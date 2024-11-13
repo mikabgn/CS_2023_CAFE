@@ -1,7 +1,7 @@
 <?php
 //error_log("page debut");
 session_start();
-include_once "vendor/autoload.php";
+include_once "../vendor/autoload.php";
 
 use App\Utilitaire\Vue;
 use App\Vue\Vue_AfficherMessage;

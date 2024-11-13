@@ -23,14 +23,18 @@ switch ($action) {
         $salarie = Modele_Salarie::Salarie_Select_byId($_SESSION["idSalarie"]);
         if (password_verify($_REQUEST["AncienPassword"], $salarie["password"])) {
             //on vérifie si le mot de passe de la BDD est le même que celui rentré
-            if ($_REQUEST["NouveauPassword"] == $_REQUEST["ConfirmPassword"]) {
+                if ($_REQUEST["NouveauPassword"] == $_REQUEST["ConfirmPassword"]) {
+                    if ($_REQUEST["NouveauPassword"] == $_REQUEST["ConfirmPassword"]) {
+                    $Vue->setEntete(new Vue_Structure_Entete());
+                    $quantiteMenu = Modele_Commande::Panier_Quantite($_SESSION["idEntreprise"]);
+                    $Vue->setMenu(new Vue_Menu_Entreprise_Salarie($quantiteMenu));
+                    Modele_Salarie::Salarie_Modifier_motDePasse($_SESSION["idSalarie"], $_REQUEST["NouveauPassword"]);
+                    $Vue->addToCorps(new Vue_Compte_Administration_Gerer("<br><label><b>Votre mot de passe a bien été modifié</b></label>", "Gerer_MonCompte_Salarie"));
+                    // Dans ce cas les mots de passe sont bons, il est donc modifier
+                } else {
                 $Vue->setEntete(new Vue_Structure_Entete());
-                $quantiteMenu = Modele_Commande::Panier_Quantite($_SESSION["idEntreprise"]);
-                $Vue->setMenu(new Vue_Menu_Entreprise_Salarie($quantiteMenu));
-                Modele_Salarie::Salarie_Modifier_motDePasse($_SESSION["idSalarie"], $_REQUEST["NouveauPassword"]);
-                $Vue->addToCorps(new Vue_Compte_Administration_Gerer("<br><label><b>Votre mot de passe a bien été modifié</b></label>", "Gerer_MonCompte_Salarie"));
-                // Dans ce cas les mots de passe sont bons, il est donc modifier
-
+                $Vue->setMenu(new Vue_Menu_Administration());
+                $Vue->addToCorps(new Vue_Utilisateur_Changement_MDP("<label><b>Mot de passe pas assez complexe</b></label>", "Gerer_monCompte"));}
             } else {
                 $Vue->setEntete(new Vue_Structure_Entete());
                 $quantiteMenu = Modele_Commande::Panier_Quantite($_SESSION["idEntreprise"]);

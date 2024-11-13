@@ -37,6 +37,7 @@ class Vue_Utilisateur_Changement_MDP extends Vue_Composant
             <td>
                 <label>Veuillez saisir votre nouveau mot de passe : </label>
             </td>
+            <div>Il doit avoir une force Minimum de 90 bits il est donc recommandé d'utiliser (Majuscule, minuscule, chiffre et caractére spéciaux)</div>
             <td>
     
                 <input type='password' placeholder='mot de passe' name='NouveauPassword' required>
