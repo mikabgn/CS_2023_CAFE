@@ -43,7 +43,6 @@ class Modele_Commande
             on idEtatCommande = commande.etat
         inner join entreprise
             on entreprise.idEntreprise = commande.idEntreprise
-    
         where  idEtatCommande = :idEtatCommande
     group by commande.id, commande.dateCreation, etat_commande.libelle');
         $requetePreparee->bindValue('idEtatCommande', $idEtatCommande);

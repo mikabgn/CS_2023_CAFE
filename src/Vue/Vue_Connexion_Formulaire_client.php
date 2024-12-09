@@ -14,7 +14,7 @@ class Vue_Connexion_Formulaire_client extends Vue_Composant
     {
         $str= "
 <h1>Café : Connexion</h1>
-<div  style='    width: 50%;    display: block;    margin: auto;'>  
+<div  style='width: 50%;    display: block;    margin: auto;'>  
   <form action='index.php' method='post'>
   
                 <h1>Connexion</h1>
@@ -33,7 +33,6 @@ class Vue_Connexion_Formulaire_client extends Vue_Composant
         {
             $str .=  " <label><b>Erreur : $this->msgErreur</b></label>";
         }
-
         $str .=  "
 
 </form>

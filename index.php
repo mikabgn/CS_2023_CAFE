@@ -1,7 +1,7 @@
 <?php
 //error_log("page debut");
 session_start();
-include_once "../vendor/autoload.php";
+include_once "vendor/autoload.php";
 
 use App\Utilitaire\Vue;
 use App\Vue\Vue_AfficherMessage;
@@ -17,7 +17,6 @@ $Vue = new Vue();
 
 //Charge le gestionnaire de vue
 
-
 if (isset($_SESSION["typeConnexionBack"])) {
     $typeConnexion = $_SESSION["typeConnexionBack"];
 } else {
@@ -32,6 +31,11 @@ if (isset($_REQUEST["case"]))
     $case = $_REQUEST["case"];
 else
     $case = "Cas_Par_Defaut";
+
+if (isset($_SESSION["msgErreurMail"])){
+    echo $_SESSION["msgErreurMail"];
+    unset($_SESSION["msgErreurMail"]);
+}
 //error_log("case : " . $case);
 //utiliser en débuggage pour avoir le type de connexion
 //$Vue->addToCorps(new Vue_AfficherMessage("<br>Case $case<br>"));
@@ -43,13 +47,16 @@ else
     $action = "Action_Par_Defaut";
 //error_log("action : " . $action);
 //utiliser en débuggage pour avoir le type de connexion
-//$Vue->addToCorps(new Vue_AfficherMessage("<br>Action $action<br>"));
+$Vue->addToCorps(new Vue_AfficherMessage("<br>Action $action<br>"));
+$Vue->addToCorps(new Vue_AfficherMessage("<br>Action $typeConnexion<br>"));
+
 
 switch ($typeConnexion) {
     case "visiteur" :
         include "Controleur/Controleur_visiteur.php";
         break;
-    case "utilisateurCafe":
+    case "gestionnaireCatalogue":
+    case "commercialCafe":
     case "administrateurLogiciel":
         switch ($case) {
             case "Gerer_CommandeClient":
@@ -69,7 +76,7 @@ switch ($typeConnexion) {
                 include "Controleur/Controleur_Gerer_monCompte.php";
                 break;
             default:
-                $Vue->setMenu(new Vue_Menu_Administration());
+                $Vue->setMenu(new Vue_Menu_Administration($typeConnexion));
                 break;
         }
         break;
@@ -97,5 +104,7 @@ switch ($typeConnexion) {
                 include "Controleur/Controleur_Catalogue_client.php";
                 break;
         }
+    default:
+        $Vue->addToCorps(new Vue_AfficherMessage("Type de connexion non reconnu"));
 }
 $Vue->afficher();
