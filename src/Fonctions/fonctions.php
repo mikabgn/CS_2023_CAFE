@@ -2,11 +2,11 @@
 namespace App\Fonctions;
 use PHPMailer\PHPMailer\PHPMailer;
 
-    function Redirect_Self_URL():void{
-        unset($_REQUEST);
-        header("Location: ".$_SERVER['PHP_SELF']);
-        exit;
-    }
+function Redirect_Self_URL():void{
+    unset($_REQUEST);
+    header("Location: ".$_SERVER['PHP_SELF']);
+    exit;
+}
 
 function GenereMDP($nbChar) :string{
 
@@ -36,31 +36,31 @@ function tokenMotDePasse($nbChar){
     }
     return $pass;
 }
-    function envoieMailTokens($valeurToken)
-    {
+function envoieMailTokens($valeurToken)
+{
 
-        $mail = new PHPMailer;
-        $mail->isSMTP();
-        $mail->Host = '127.0.0.1';
-        $mail->Port = 1025;
-        $mail->SMTPAuth = false;
-        $mail->SMTPAutoTLS = false;
-        $mail->setFrom('café@café.fr', 'café');
-        $mail->addAddress($_POST["email"], 'Mon client');
-        if ($mail->addReplyTo($_POST["email"], 'café')) {
-            $mail->Subject = 'Objet : Réinitialisation de mot de passe !';
-            $mail->isHTML(true);
-            $mail->Body = "Veuillez cliquer sur ce lien pour réinitialiser votre mdp : <a href='http://localhost:8001/index.php?action=token&token=$valeurToken'>Lien à cliquer </a>";
-            if (!$mail->send()) {
-                $msg = 'Désolé, quelque chose a mal tourné. Veuillez réessayer plus tard.';
-            } else {
-                $msg = 'Message envoyé ! Merci de nous avoir contactés.';
-            }
+    $mail = new PHPMailer;
+    $mail->isSMTP();
+    $mail->Host = '127.0.0.1';
+    $mail->Port = 1025;
+    $mail->SMTPAuth = false;
+    $mail->SMTPAutoTLS = false;
+    $mail->setFrom('café@café.fr', 'café');
+    $mail->addAddress($_POST["email"], 'Mon client');
+    if ($mail->addReplyTo($_POST["email"], 'café')) {
+        $mail->Subject = 'Objet : Réinitialisation de mot de passe !';
+        $mail->isHTML(true);
+        $mail->Body = "Veuillez cliquer sur ce lien pour réinitialiser votre mdp : <a href='http://localhost:8001/index.php?action=token&token=$valeurToken'>Lien à cliquer </a>";
+        if (!$mail->send()) {
+            $msg = 'Désolé, nous avons rencontré un problème, Veuillez réessayer plus tard.';
         } else {
-            $msg = 'Il doit manquer quelque chose !';
+            $msg = 'Message envoyé ! Veuillez verifier vos email.';
         }
-        echo $msg;
+    } else {
+        $msg = 'Il doit manquer quelque chose !';
     }
+    echo $msg;
+}
 function envoieMail($pass)
 {
     $mail = new PHPMailer;
@@ -76,9 +76,9 @@ function envoieMail($pass)
         $mail->isHTML(false);
         $mail->Body = "Votre mot de passe à usage unique est le suivant : ".$pass;
         if (!$mail->send()) {
-            $msg = 'Désolé, quelque chose a mal tourné. Veuillez réessayer plus tard.';
+            $msg = 'Désolé, nous avons rencontré un problème, Veuillez réessayer plus tard.';
         } else {
-            $msg = 'Message envoyé ! Merci de nous avoir contactés.';
+            $msg = ' ';
         }
     } else {
         $msg = 'Il doit manquer quelque chose !';

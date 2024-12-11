@@ -10,9 +10,7 @@ use App\Vue\Vue_Produits_Info_Clients;
 use App\Vue\Vue_Structure_BasDePage;
 use App\Vue\Vue_Structure_Entete;
 
-
 $Vue->setEntete(new Vue_Structure_Entete());
-
 
     if ($action == "AjoutPanierClient") {
         //on met dans le panier avant de calculer le menu

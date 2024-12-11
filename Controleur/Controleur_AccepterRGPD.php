@@ -7,7 +7,7 @@ use App\Vue\Vue_Menu_Administration;
 use App\Vue\Vue_Menu_Entreprise_Client;
 use App\Vue\Vue_Structure_Entete;
 
-switch ($action) {
+switch ($RGPD) {
     case "accepte_RGPD":
         Modele_Utilisateur::Utilisateur_Modifier_RGPD(1, date("Y-m-d"), $_SERVER['REMOTE_ADDR'], $_SESSION["idUtilisateur"]);
         //Appel à une nouvelle fonction du modèle  $_SESSION["idUtilisateur"]

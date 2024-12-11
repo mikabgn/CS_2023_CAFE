@@ -20,8 +20,9 @@ $Vue->setEntete(new Vue_Structure_Entete());
 switch ($action) {
     case "choixmdp":
         if ($_POST["mdp1"] == $_POST["mdp2"]) {
-            var_dump($_SESSION);
+            //var_dump($_SESSION);
             Modele_Utilisateur::Utilisateur_Modifier_motDePasse((Modele_Utilisateur::Utilisateur_Select_ParLogin($_SESSION["email"])["idUtilisateur"]),$_POST["mdp1"]);
+            $Vue->addToCorps(new Vue_Connexion_Formulaire_client());
         } else {
             $Vue->addToCorps(new \App\Vue\Vue_Mail_ChoisirNouveauMdp($_SESSION["token"]));
         }
@@ -29,6 +30,7 @@ switch ($action) {
     case "token":
         $_SESSION["token"] = $_GET["token"];
         $Vue->addToCorps(new \App\Vue\Vue_Mail_ChoisirNouveauMdp($_SESSION["token"]));
+
         break;
     case "reinitmdpconfirm":
           //comme un qqc qui manque... je dis ça ! je dis rien !
@@ -40,12 +42,11 @@ switch ($action) {
             Modele_Utilisateur::Utilisateur_Modifier_motDePasse(Modele_Utilisateur::Utilisateur_Select_ParLogin($_SESSION["email"])["idUtilisateur"],$nouveauMDP);
         }
         $_SESSION["reinitmdp"] = true;
-        $Vue->addToCorps(new Vue_Mail_Confirme());
+        $Vue->addToCorps(new Vue_Connexion_Formulaire_client());
 
         break;
     case "reinitmdpconfirmTokens":
         $_SESSION["email"] = $_POST["email"];
-
         $valeurToken = \App\Fonctions\tokenMotDePasse(30);
         $id_utilisateur = \App\Modele\Modele_Utilisateur::Utilisateur_Select_ParLogin($_POST["email"] )["idUtilisateur"];
         if (!empty($id_utilisateur)){
@@ -78,13 +79,14 @@ switch ($action) {
                         $_SESSION["idCategorie_utilisateur"] = $utilisateur["idCategorie_utilisateur"];
                         //error_log("idCategorie_utilisateur : " . $_SESSION["idCategorie_utilisateur"]);
                         switch ($utilisateur["idCategorie_utilisateur"]) {
+
                             case 1:
                                 $_SESSION["typeConnexionBack"] = "administrateurLogiciel"; //Champ inutile, mais bien pour voir ce qu'il se passe avec des étudiants !
                                 if ($utilisateur["aAccepterRGPD"]==0){
                                     include "./Controleur/Controleur_AccepterRGPD.php";
                                 }
                                 else
-                                         $Vue->setMenu(new Vue_Menu_Administration($_SESSION["typeConnexionBack"]));
+                                    $Vue->setMenu(new Vue_Menu_Administration($_SESSION["typeConnexionBack"]));
                                 break;
                             case 2:
                                 $_SESSION["typeConnexionBack"] = "gestionnaireCatalogue";
@@ -113,6 +115,8 @@ switch ($action) {
                                 include "./Controleur/Controleur_Catalogue_client.php";
                                 break;
                             case 5:
+                                echo $utilisateur['typeConnexionBack'];
+
                                 $_SESSION["typeConnexionBack"] = "commercialCafe";
                                 $Vue->setMenu(new Vue_Menu_Administration($_SESSION["typeConnexionBack"]));
                                 break;
