@@ -20,6 +20,7 @@ $Vue = new Vue();
 
 if (isset($_SESSION["typeConnexionBack"])) {
     $typeConnexion = $_SESSION["typeConnexionBack"];
+    verifierCSRF($_POST["CSRF"]);
 } else {
     $typeConnexion = "visiteur";
 }
